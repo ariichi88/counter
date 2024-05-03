@@ -13,6 +13,14 @@ func main() {
 
 	w := a.NewWindow("simple counter")
 
+	tv := widget.NewLabel("0")
+	tc := widget.NewLabel("0")
+	cv := widget.NewLabel("0")
+
+	tv.Alignment = fyne.TextAlignTrailing
+	tc.Alignment = fyne.TextAlignTrailing
+	cv.Alignment = fyne.TextAlignTrailing
+
 	b1 := widget.NewButton("1", func() {})
 	b2 := widget.NewButton("2", func() {})
 	b3 := widget.NewButton("3", func() {})
@@ -24,14 +32,6 @@ func main() {
 	b9 := widget.NewButton("9", func() {})
 	b0 := widget.NewButton("0", func() {})
 	pb := widget.NewButton(".", func() {})
-
-	tv := widget.NewLabel("0")
-	tc := widget.NewLabel("0")
-	cv := widget.NewLabel("0")
-
-	tv.Alignment = fyne.TextAlignTrailing
-	tc.Alignment = fyne.TextAlignTrailing
-	cv.Alignment = fyne.TextAlignTrailing
 
 	ltv := widget.NewLabel("総合計")
 	ltc := widget.NewLabel("カウント")
