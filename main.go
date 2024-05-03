@@ -25,9 +25,9 @@ func main() {
 	b0 := widget.NewButton("0", func() {})
 	pb := widget.NewButton(".", func() {})
 
-	tv := widget.NewLabel("")
-	tc := widget.NewLabel("")
-	cv := widget.NewLabel("")
+	tv := widget.NewLabel("0")
+	tc := widget.NewLabel("0")
+	cv := widget.NewLabel("0")
 
 	tv.Alignment = fyne.TextAlignTrailing
 	tc.Alignment = fyne.TextAlignTrailing
