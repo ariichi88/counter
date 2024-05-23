@@ -9,9 +9,6 @@ import (
 
 type japaneseTheme struct{}
 
-var _ fyne.Theme = (*japaneseTheme)(nil)
-
-// return bundled font resource
 func (*japaneseTheme) Font(s fyne.TextStyle) fyne.Resource {
 	if s.Monospace {
 		return theme.DefaultTheme().Font(s)
