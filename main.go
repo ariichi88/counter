@@ -17,9 +17,10 @@ func main() {
 	w := a.NewWindow("simplfunce counter")
 
 	var (
-		total    float64
-		count    float64
-		current  float64
+		total   float64
+		count   float64
+		prev    float64
+		point   bool = false
 	)
 
 	tv := widget.NewLabel("0")
@@ -31,10 +32,24 @@ func main() {
 	cv.Alignment = fyne.TextAlignTrailing
 
 	f := func(c string) {
-		if cv.Text == "0" {
-			cv.SetText(c)
-		} else {
-			cv.SetText(cv.Text + c)
+		switch c {
+		case "0":
+			if cv.Text != "0" {
+				cv.SetText(cv.Text + c)
+			} else {
+				cv.SetText(c)
+			}
+		case ".":
+			if !point {
+				cv.SetText(cv.Text + c)
+				point = true
+			}
+		default:
+			if cv.Text == "0" {
+				cv.SetText(c)
+			} else {
+				cv.SetText(cv.Text + c)
+			}
 		}
 	}
 
@@ -72,10 +87,14 @@ func main() {
 			OnTapped:   func() {
 				current, err := strconv.ParseFloat(cv.Text, 64)
 				if err != nil {
-					fmt.Println("数値の変換に失敗しました")
+					fmt.Println("数値の取得に失敗しました")
 				}
-				total = total + current
-				count ++
+				if current != 0 {
+					total = total + current
+					count ++
+					prev = current
+					point = false
+				}
 				tv.SetText(fmt.Sprint(total))
 				tc.SetText(fmt.Sprint(count))
 				cv.SetText("0")
@@ -84,14 +103,16 @@ func main() {
 			Text:       "直前の値を削除",
 			Importance: widget.DangerImportance,
 			OnTapped:   func() {
-				total = total - current
-				count = count - 1
+				if prev != 0 {
+					total = total - prev
+				    count = count - 1
+					prev = 0
+				}
 				tv.SetText(fmt.Sprint(total))
 				tc.SetText(fmt.Sprint(count))
 				cv.SetText("0")
 			},},
 		),
 	)
-
 	w.ShowAndRun()
 }
