@@ -1,8 +1,9 @@
 package main
 
 import (
-	"strconv"
 	"fmt"
+
+	"github.com/shopspring/decimal"
 
 	"fyne.io/fyne/v2"
 	"fyne.io/fyne/v2/app"
@@ -17,9 +18,9 @@ func main() {
 	w := a.NewWindow("simplfunce counter")
 
 	var (
-		total   float64
-		count   float64
-		prev    float64
+		total   decimal.Decimal
+		count   decimal.Decimal
+		prev    decimal.Decimal
 		point   bool = false
 	)
 
@@ -85,31 +86,31 @@ func main() {
 			Text:       "現在の値を総合計に加算",
 			Importance: widget.HighImportance,
 			OnTapped:   func() {
-				current, err := strconv.ParseFloat(cv.Text, 64)
+				current, err := decimal.NewFromString(cv.Text)
 				if err != nil {
 					fmt.Println("数値の取得に失敗しました")
 				}
-				if current != 0 {
-					total = total + current
-					count ++
+				if !current.Equal(decimal.NewFromInt32(0)) {
+					total = total.Add(current)
+					count = count.Add(decimal.NewFromInt32(1))
 					prev = current
 					point = false
 				}
-				tv.SetText(fmt.Sprint(total))
-				tc.SetText(fmt.Sprint(count))
+				tv.SetText(total.String())
+				tc.SetText(count.String())
 				cv.SetText("0")
 			},},
 		&widget.Button{
 			Text:       "直前の値を削除",
 			Importance: widget.DangerImportance,
 			OnTapped:   func() {
-				if prev != 0 {
-					total = total - prev
-				    count = count - 1
-					prev = 0
+				if !prev.Equal(decimal.NewFromInt32(0)) {
+					total = total.Sub(prev)
+					count = count.Sub(decimal.NewFromInt32(1))
+					prev = decimal.NewFromInt32(0)
 				}
-				tv.SetText(fmt.Sprint(total))
-				tc.SetText(fmt.Sprint(count))
+				tv.SetText(total.String())
+				tc.SetText(count.String())
 				cv.SetText("0")
 			},},
 		),
