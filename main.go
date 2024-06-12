@@ -83,6 +83,12 @@ func main() {
 			b0, pb,
 		),
 		&widget.Button{
+			Text:       "現在の値をクリア",
+			Importance: widget.LowImportance,
+			OnTapped:   func() {
+				cv.SetText("0")
+			},},
+		&widget.Button{
 			Text:       "現在の値を総合計に加算",
 			Importance: widget.HighImportance,
 			OnTapped:   func() {
